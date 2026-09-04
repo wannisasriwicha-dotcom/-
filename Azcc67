@@ -1,0 +1,357 @@
+-- ============================================
+-- Script Name: Msonty Script
+-- Description: Roblox Multi-Function Hub (20 Functions)
+-- ============================================
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.CurrentCamera
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+-- State Variables
+local States = {
+    InfiniteJump = false,
+    Speed1 = false,
+    Speed2 = false,
+    Speed3 = false,
+    AimbotBody = false,
+    AimbotHead = false,
+    ItemEsp = false,
+    PlayerEsp = false,
+    ItemMagnet = false,
+    Underground = false,
+    Noclip = false,
+    Fly = false,
+    LowGravity = false,
+    Fullbright = false,
+    HighJump = false,
+    SpinBot = false,
+    Invisibility = false,
+    GodModeFake = false,
+    AntiAFK = false,
+    ResetStats = false
+}
+
+-- Create UI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "MsontyScriptGui"
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 360, 0, 480)
+MainFrame.Position = UDim2.new(0.5, -180, 0.5, -240)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+Title.Text = "Msonty Script (20 Functions)"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 18
+Title.Font = Enum.Font.SourceSansBold
+Title.Parent = MainFrame
+
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Size = UDim2.new(0, 100, 0, 30)
+ToggleBtn.Position = UDim2.new(0, 10, 0, 5)
+ToggleBtn.Text = "Open/Close"
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleBtn.Parent = ScreenGui
+
+ToggleBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Size = UDim2.new(1, -20, 1, -60)
+Scroll.Position = UDim2.new(0, 10, 0, 50)
+Scroll.BackgroundTransparency = 1
+Scroll.CanvasSize = UDim2.new(0, 0, 0, 900)
+Scroll.ScrollBarThickness = 6
+Scroll.Parent = MainFrame
+
+local UIList = Instance.new("UIListLayout")
+UIList.Parent = Scroll
+UIList.SortOrder = Enum.SortOrder.LayoutOrder
+UIList.Padding = UDim me and UDim.new(0, 6) or UDim.new(0, 6)
+
+-- Function to Create Toggle Buttons
+local function CreateButton(name, callback)
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(1, -10, 0, 35)
+    Btn.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+    Btn.Text = name .. " : OFF"
+    Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    Btn.Font = Enum.Font.SourceSans
+    Btn.TextSize = 16
+    Btn.Parent = Scroll
+
+    local active = false
+    Btn.MouseButton1Click:Connect(function()
+        active = not active
+        if active then
+            Btn.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+            Btn.Text = name .. " : ON"
+            Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        else
+            Btn.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+            Btn.Text = name .. " : OFF"
+            Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+        end
+        callback(active)
+    end)
+end
+
+-- ============================================
+-- 20 FUNCTIONS IMPLEMENTATION
+-- ============================================
+
+-- 1. Infinite Jump (กระโดดไม่จำกัด)
+CreateButton("1. กระโดดไม่จำกัด", function(val)
+    States.InfiniteJump = val
+end)
+UserInputService.JumpRequest:Connect(function()
+    if States.InfiniteJump and LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+    end
+end)
+
+-- 2. Speed 1 (วิ่งเร็ว ระดับ 1)
+CreateButton("2. วิ่งเร็ว (Speed 1)", function(val)
+    States.Speed1 = val
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = val and 32 or 16
+    end
+end)
+
+-- 3. Speed 2 (วิ่งเร็ว ระดับ 2)
+CreateButton("3. วิ่งเร็ว (Speed 2)", function(val)
+    States.Speed2 = val
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = val and 64 or 16
+    end
+end)
+
+-- 4. Speed 3 (วิ่งเร็ว 3)
+CreateButton("4. วิ่งเร็ว 3 (Speed 100)", function(val)
+    States.Speed3 = val
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = val and 100 or 16
+    end
+end)
+
+-- 5. Item Magnet (ดูดของ)
+CreateButton("5. ดูดของ (Item Magnet)", function(val)
+    States.ItemMagnet = val
+end)
+RunService.RenderStepped:Connect(function()
+    if States.ItemMagnet and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local HRP = LocalPlayer.Character.HumanoidRootPart
+        for _, v in pairs(Workspace:GetDescendants()) do
+            if v:IsA("TouchTransporter") or (v:IsA("Part") and v.Parent:FindFirstChildOfClass("TouchTransporter")) or v:IsA("Tool") then
+                if v:IsA("BasePart") then
+                    v.CFrame = HRP.CFrame
+                elseif v:IsA("Tool") and v:FindFirstChild("Handle") then
+                    v.Handle.CFrame = HRP.CFrame
+                end
+            end
+        end
+    end
+end)
+
+-- 6. FOV Lock / Max FOV (ขยายมุมมอง FOV)
+CreateButton("6. ขยายมุมมอง FOV (Max)", function(val)
+    Camera.FieldOfView = val and 120 or 70
+end)
+
+-- 7. Aimbot Body (ล็อคตัว)
+CreateButton("7. ล็อคตัว (Aimbot Body)", function(val)
+    States.AimbotBody = val
+end)
+
+-- 8. Aimbot Head (ล็อคหัว)
+CreateButton("8. ล็อคหัว (Aimbot Head)", function(val)
+    States.AimbotHead = val
+end)
+
+RunService.RenderStepped:Connect(function()
+    if States.AimbotBody or States.AimbotHead then
+        local closestPlayer = nil
+        local shortestDistance = math.huge
+
+        for _, plr in pairs(Players:GetPlayers()) do
+            if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("Humanoid") and plr.Character.Humanoid.Health > 0 then
+                local targetPart = States.AimbotHead and plr.Character:FindFirstChild("Head") or plr.Character:FindFirstChild("HumanoidRootPart")
+                if targetPart then
+                    local pos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
+                    if onScreen then
+                        local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+                        if magnitude < shortestDistance then
+                            closestPlayer = targetPart
+                            shortestDistance = magnitude
+                        end
+                    end
+                end
+            end
+        end
+
+        if closestPlayer then
+            Camera.CFrame = CFrame.new(Camera.CFrame.Position, closestPlayer.Position)
+        end
+    end
+end)
+
+-- 9. Item ESP (ดูของ)
+CreateButton("9. ดูของ (Item ESP)", function(val)
+    States.ItemEsp = val
+    if not val then
+        for _, v in pairs(Workspace:GetDescendants()) do
+            if v:FindFirstChild("ItemHighlight") then
+                v.ItemHighlight:Destroy()
+            end
+        end
+    end
+end)
+RunService.RenderStepped:Connect(function()
+    if States.ItemEsp then
+        for _, v in pairs(Workspace:GetDescendants()) do
+            if (v:IsA("Tool") or v:IsA("Model")) and not v:FindFirstChild("ItemHighlight") and not Players:GetPlayerFromCharacter(v) then
+                local hl = Instance.new("Highlight")
+                hl.Name = "ItemHighlight"
+                hl.FillColor = Color3.fromRGB(255, 255, 0)
+                hl.Parent = v
+            end
+        end
+    end
+end)
+
+-- 10. Underground 100 (มุดดิน 100)
+CreateButton("10. มุดดิน 100", function(val)
+    States.Underground = val
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        if val then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 100, 0)
+        else
+            LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 100, 0)
+        end
+    end
+end)
+
+-- 11. Player ESP (ดูตำแหน่งผู้เล่น)
+CreateButton("11. ดูตำแหน่งผู้เล่น (Player ESP)", function(val)
+    States.PlayerEsp = val
+    for _, plr in pairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            if val then
+                if not plr.Character:FindFirstChild("PlrHighlight") then
+                    local hl = Instance.new("Highlight")
+                    hl.Name = "PlrHighlight"
+                    hl.FillColor = Color3.fromRGB(255, 0, 0)
+                    hl.Parent = plr.Character
+                end
+            else
+                if plr.Character:FindFirstChild("PlrHighlight") then
+                    plr.Character.PlrHighlight:Destroy()
+                end
+            end
+        end
+    end
+end)
+
+-- 12. Noclip (ทะลุกำแพง)
+CreateButton("12. ทะลุกำแพง (Noclip)", function(val)
+    States.Noclip = val
+end)
+RunService.Stepped:Connect(function()
+    if States.Noclip and LocalPlayer.Character then
+        for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- 13. High Jump (กระโดดสูง)
+CreateButton("13. กระโดดสูง (High Jump)", function(val)
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = val and 120 or 50
+    end
+end)
+
+-- 14. Low Gravity (แรงโน้มถ่วงต่ำ)
+CreateButton("14. แรงโน้มถ่วงต่ำ (Low Gravity)", function(val)
+    Workspace.Gravity = val and 30 or 196.2
+end)
+
+-- 15. Fullbright (มองเห็นในที่มืด)
+CreateButton("15. มองเห็นในที่มืด (Fullbright)", function(val)
+    if val then
+        game:GetService("Lighting").Ambient = Color3.fromRGB(255, 255, 255)
+    else
+        game:GetService("Lighting").Ambient = Color3.fromRGB(128, 128, 128)
+    end
+end)
+
+-- 16. SpinBot (หมุนตัวเร็ว)
+CreateButton("16. หมุนตัวเร็ว (SpinBot)", function(val)
+    States.SpinBot = val
+end)
+RunService.RenderStepped:Connect(function()
+    if States.SpinBot and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(50), 0)
+    end
+end)
+
+-- 17. Invisibility Fake (ล่องหนชั่วคราว)
+CreateButton("17. ล่องหน (Invisibility)", function(val)
+    if LocalPlayer.Character then
+        for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
+            if part:IsA("BasePart") or part:IsA("Decal") then
+                part.Transparency = val and 1 or 0
+            end
+        end
+    end
+end)
+
+-- 18. Reset Character (รีเซ็ตตัวละคร)
+CreateButton("18. รีเซ็ตตัวละคร", function(val)
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Health = 0
+    end
+end)
+
+-- 19. Anti-AFK (กันหลุดจากการ AFK)
+CreateButton("19. กันหลุด AFK (Anti-AFK)", function(val)
+    States.AntiAFK = val
+end)
+LocalPlayer.Idled:Connect(function()
+    if States.AntiAFK then
+        local VirtualUser = game:GetService("VirtualUser")
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end
+end)
+
+-- 20. Restore Defaults (คืนค่าเริ่มต้นทั้งหมด)
+CreateButton("20. คืนค่าเริ่มต้น", function(val)
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        hum.WalkSpeed = 16
+        hum.JumpPower = 50
+    end
+    Workspace.Gravity = 196.2
+    Camera.FieldOfView = 70
+    game:GetService("Lighting").Ambient = Color3.fromRGB(128, 128, 128)
+end)
